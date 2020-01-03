@@ -28,6 +28,8 @@ function reducer(state, action) {
         mime: action.file.fileType,
         type: TYPE_FILE
       });
+    case ACTIONS.SEARCH:
+      return {...state, searchPhrase: action.phrase};
     default:
       return state;
   }

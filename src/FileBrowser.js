@@ -91,7 +91,13 @@ function renderFileTreeNode(node, onDirClick) {
 
 export default connect(
   state => ({
-    items: findByPath(state.currentPath, state.fileTree),
+    items: findByPath(state.currentPath, state.fileTree).filter(i => {
+      if(!state.searchPhrase) {
+        return true;
+      } else {
+        return i.name.toLowerCase().includes(state.searchPhrase.toLowerCase());
+      }
+    }),
     currentPath: state.currentPath
   }),
   dispatch => ({
