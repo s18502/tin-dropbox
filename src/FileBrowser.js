@@ -1,19 +1,15 @@
 import React from "react";
 import "./App.css";
-import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { FileCard, DirectoryCard } from "./CustomCards";
-import Fab from "@material-ui/core/Fab";
 import { connect } from "react-redux";
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { ACTIONS, TYPE_FILE } from './Constants';
 import { findByPath } from './SearchTree';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDials from './SpeedDials';
 
 const useStyles = makeStyles(theme => ({
@@ -89,7 +85,7 @@ function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir, on
 function renderFileTreeNode(node, onDirClick) {
   if (node.type === TYPE_FILE) {
     return (
-      <FileCard fileName={node.name} />
+      <FileCard fileName={node.name} mime={node.mime} />
     );
   } else {
     return <DirectoryCard dirName={node.name} onClick={onDirClick} />;

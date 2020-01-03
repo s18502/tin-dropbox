@@ -3,11 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import FolderIcon from "@material-ui/icons/Folder";
 import Link from '@material-ui/core/Link';
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
+import { getIcon } from './MimeIcons';
 
 const useStyles = makeStyles({
   card: {
@@ -23,13 +22,13 @@ const useStyles = makeStyles({
   }
 });
 
-export function FileCard({ fileName }) {
+export function FileCard({ fileName, mime }) {
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <DescriptionRoundedIcon className={classes.iconTile} />
+        {getIcon(mime, classes.iconTile)}
         {/*<CardMedia*/}
         {/*  className={classes.fileTile}*/}
         {/*  image={fileThumbnail}*/}

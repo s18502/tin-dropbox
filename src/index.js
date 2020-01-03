@@ -30,6 +30,7 @@ function counter(state, action) {
     case ACTIONS.FILE_UPLOAD:
       return insertUnderCurrentPath({
         name: action.file.fileName,
+        mime: action.file.fileType,
         type: TYPE_FILE
       });
     default:

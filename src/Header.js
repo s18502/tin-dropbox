@@ -32,7 +32,7 @@ function Header() {
           <MenuIcon />
         </IconButton>
         <Typography component="h1" variant="h6" color="inherit" noWrap>
-          Dashboard
+          "Dropbox"
         </Typography>
       </Toolbar>
     </AppBar>
