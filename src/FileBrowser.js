@@ -7,6 +7,11 @@ import Container from "@material-ui/core/Container";
 import { FileCard, DirectoryCard } from "./CustomCards";
 import Fab from "@material-ui/core/Fab";
 import { connect } from "react-redux";
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+import { ACTIONS, TYPE_FILE } from './Constants';
+import { findByPath } from './SearchTree';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +29,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
   },
+  breadcrumbs: {
+    paddingBottom: theme.spacing(2)
+  },
   appBarSpacer: theme.mixins.toolbar,
   fileIcon: {
     minHeight: 70,
@@ -36,19 +44,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function FileBrowser({ tree }) {
+function FileBrowser({ items, currentPath, onDirClick }) {
   let classes = useStyles();
 
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
+
       <Container maxWidth="lg" className={classes.container}>
+        <Typography color="textPrimary">Current path</Typography>
+        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          {currentPath.map(p => (
+            <Link key={p} color="inherit" href="/" >
+              {p}
+            </Link>
+          ))}
+        </Breadcrumbs>
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container spacing={2}>
-              {tree.children.map(value => (
+              {items.map(value => (
                 <Grid key={value.name} item>
-                  {renderFileTreeNode(value)}
+                  {renderFileTreeNode(value, onDirClick)}
                 </Grid>
               ))}
             </Grid>
@@ -62,8 +80,8 @@ function FileBrowser({ tree }) {
   );
 }
 
-function renderFileTreeNode(node) {
-  if (node.type === "file") {
+function renderFileTreeNode(node, onDirClick) {
+  if (node.type === TYPE_FILE) {
     return (
       <FileCard
         fileName={node.name}
@@ -71,17 +89,20 @@ function renderFileTreeNode(node) {
       />
     );
   } else {
-    return <DirectoryCard dirName={node.name} />;
+    return <DirectoryCard dirName={node.name} onClick={onDirClick} />;
   }
 }
 
 export default connect(
   state => ({
-    tree: state.fileTree
+    items: findByPath(state.currentPath, state.fileTree),
+    currentPath: state.currentPath
   }),
   dispatch => ({
-    onMessageClick: message => {
-      dispatch({ type: "click", message });
+    onDirClick: dirName => {
+      const action = { type: ACTIONS.GO_TO_DIR, dirName };
+      console.log("clicked", action)
+      dispatch(action);
     }
   })
 )(FileBrowser);

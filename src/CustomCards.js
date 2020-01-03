@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import FolderIcon from "@material-ui/icons/Folder";
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
   card: {
@@ -43,14 +44,20 @@ export function FileCard({ fileName, fileThumbnail }) {
 export function DirectoryCard(props) {
   const classes = useStyles();
 
+  function handleClick() {
+    props.onClick(props.dirName);
+  }
+
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <FolderIcon className={classes.dirTile} />
-        <CardContent>
-          <Typography>{props.dirName}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Link onClick={handleClick}>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <FolderIcon className={classes.dirTile} />
+          <CardContent>
+            <Typography>{props.dirName}</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Link>
   );
 }
