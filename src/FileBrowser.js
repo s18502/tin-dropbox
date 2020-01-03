@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   appBarSpacer: theme.mixins.toolbar
 }));
 
-function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir }) {
+function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir, onFileUpload }) {
   let classes = useStyles();
 
   function breadCrumbClicked(idx) {
@@ -55,8 +55,6 @@ function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir }) 
 
   return (
     <main className={classes.content}>
-      <div id="drop_zone" draggable="true" onDragEnter={console.log} onDrop={console.log}>
-
       <div className={classes.appBarSpacer} />
 
       <Container maxWidth="lg" className={classes.container}>
@@ -81,10 +79,9 @@ function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir }) 
           </Grid>
         </Grid>
 
-        <SpeedDials onUpload={() => console.log("upload")} onDirCreated={handleDirCreation} />
+        <SpeedDials onUpload={onFileUpload} onDirCreated={handleDirCreation} />
 
       </Container>
-      </div>
     </main>
   );
 }
@@ -92,10 +89,7 @@ function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir }) 
 function renderFileTreeNode(node, onDirClick) {
   if (node.type === TYPE_FILE) {
     return (
-      <FileCard
-        fileName={node.name}
-        fileThumbnail="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-      />
+      <FileCard fileName={node.name} />
     );
   } else {
     return <DirectoryCard dirName={node.name} onClick={onDirClick} />;
@@ -118,6 +112,10 @@ export default connect(
     },
     onNewDir: name => {
       const action = { type: ACTIONS.NEW_DIR, name };
+      dispatch(action);
+    },
+    onFileUpload: file => {
+      const action = { type: ACTIONS.FILE_UPLOAD, file };
       dispatch(action);
     }
   })

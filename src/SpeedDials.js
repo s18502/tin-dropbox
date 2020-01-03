@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     bottom: theme.spacing(10),
     right: theme.spacing(10),
+  },
+  hiddenFileInput: {
+    display: 'none'
   }
 }));
 
@@ -29,8 +32,12 @@ const useStyles = makeStyles(theme => ({
 export default function SpeedDials({onUpload, onDirCreated}) {
   const classes = useStyles();
 
+  const handleFileUpload = () => {
+    document.getElementById('file-input').click();
+  };
+
   const actions = [
-    { icon: <CloudUploadIcon />, name: 'Upload file', handler: onUpload },
+    { icon: <CloudUploadIcon />, name: 'Upload file', handler: handleFileUpload },
     { icon: <CreateNewFolderIcon />, name: 'New directory', handler: onDirCreated }
   ];
 
@@ -51,8 +58,17 @@ export default function SpeedDials({onUpload, onDirCreated}) {
     handleClose();
   }
 
+  function handleFileChanged() {
+    let file = document.getElementById('file-input').files[0];
+    if(file) {
+      onUpload({fileName: file.name, fileType: file.type})
+    }
+  }
+
   return (
       <div className={classes.wrapper}>
+        <input id="file-input" type="file" name="name" className={classes.hiddenFileInput} onChange={handleFileChanged} />
+
         <SpeedDial
           ariaLabel="SpeedDial"
           className={classes.speedDial}

@@ -9,20 +9,29 @@ import { findByPath } from './SearchTree';
 
 // Reducer
 function counter(state, action) {
+  function insertUnderCurrentPath(item) {
+    const newTree = JSON.parse(JSON.stringify(state.fileTree));
+    const currentNode = findByPath(state.currentPath, newTree);
+    currentNode.push(item);
+    return { ...state, fileTree: newTree };
+  }
+
   switch (action.type) {
     case ACTIONS.CHANGE_DIR:
       return {...state, currentPath: action.absolutePath}
     case ACTIONS.GO_TO_DIR:
       return { ...state, currentPath: state.currentPath.concat([action.dirName]) };
     case ACTIONS.NEW_DIR:
-      const newTree = JSON.parse(JSON.stringify(state.fileTree))
-      const currentNode = findByPath(state.currentPath, newTree)
-      currentNode.push({
+      return insertUnderCurrentPath({
         name: action.name,
         type: TYPE_DIRECTORY,
-        children: []
+        children: [],
       });
-      return { ...state, fileTree: newTree };
+    case ACTIONS.FILE_UPLOAD:
+      return insertUnderCurrentPath({
+        name: action.file.fileName,
+        type: TYPE_FILE
+      });
     default:
       return state;
   }
