@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   }
 });
 
-export function FileCard(props) {
+export function FileCard({ fileName, fileThumbnail }) {
   const classes = useStyles();
 
   return (
@@ -29,11 +29,11 @@ export function FileCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.fileTile}
-          image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-          title={props.fileName}
+          image={fileThumbnail}
+          title={fileName}
         />
         <CardContent>
-          <Typography>{props.fileName}</Typography>
+          <Typography>{fileName}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

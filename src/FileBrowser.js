@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { FileCard, DirectoryCard } from "./CustomCards";
 import Fab from "@material-ui/core/Fab";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function FileBrowser() {
+function FileBrowser({ tree }) {
   let classes = useStyles();
 
   return (
@@ -45,38 +46,11 @@ function FileBrowser() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container spacing={2}>
-              {[
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                14,
-                15,
-                16,
-                17,
-                18,
-                19
-              ].map(value => (
-                <Grid key={value} item>
-                  <FileCard fileName={`file${value}.jpg`} />
+              {tree.children.map(value => (
+                <Grid key={value.name} item>
+                  {renderFileTreeNode(value)}
                 </Grid>
               ))}
-              <Grid key="fsd" item>
-                <DirectoryCard dirName="test" />
-              </Grid>
-
-              <Grid key="fsd2" item>
-                <DirectoryCard dirName="test2" />
-              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -88,4 +62,26 @@ function FileBrowser() {
   );
 }
 
-export default FileBrowser;
+function renderFileTreeNode(node) {
+  if (node.type === "file") {
+    return (
+      <FileCard
+        fileName={node.name}
+        fileThumbnail="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+      />
+    );
+  } else {
+    return <DirectoryCard dirName={node.name} />;
+  }
+}
+
+export default connect(
+  state => ({
+    tree: state.fileTree
+  }),
+  dispatch => ({
+    onMessageClick: message => {
+      dispatch({ type: "click", message });
+    }
+  })
+)(FileBrowser);

@@ -5,7 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 // Reducer
-function counter(state = { value: 0 }, action) {
+function counter(state, action) {
   switch (action.type) {
     case "INCREMENT":
       return { value: state.value + 1 };
@@ -15,7 +15,36 @@ function counter(state = { value: 0 }, action) {
       return state;
   }
 }
-let store = createStore(counter);
+let store = createStore(counter, {
+  fileTree: {
+    name: "home",
+    type: "directory",
+    children: [
+      {
+        name: "test.jpg",
+        type: "file"
+      },
+      {
+        name: "test2.jpg",
+        type: "file"
+      },
+      {
+        name: "test dir",
+        type: "directory",
+        children: [
+          {
+            name: "test3.jpg",
+            type: "file"
+          },
+          {
+            name: "test4.jpg",
+            type: "file"
+          }
+        ]
+      }
+    ]
+  }
+});
 
 const mountNode = document.getElementById("root");
 ReactDOM.render(
