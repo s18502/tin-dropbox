@@ -1,21 +1,24 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 100
+    minWidth: 100,
+    textAlign: "center"
   },
-  media: {
+  fileTile: {
+    minHeight: 100
+  },
+  dirTile: {
     minHeight: 100,
-  },
+    fontSize: 100
+  }
 });
 
 export function FileCard(props) {
@@ -25,17 +28,14 @@ export function FileCard(props) {
     <Card className={classes.card}>
       <CardActionArea>
         <CardMedia
-          className={classes.media}
+          className={classes.fileTile}
           image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          title={props.fileName}
         />
         <CardContent>
-          <Typography >
-            {props.fileName}
-          </Typography>
+          <Typography>{props.fileName}</Typography>
         </CardContent>
       </CardActionArea>
-
     </Card>
   );
 }
@@ -46,18 +46,11 @@ export function DirectoryCard(props) {
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
+        <FolderIcon className={classes.dirTile} />
         <CardContent>
-          <Typography >
-            dfsdfds
-          </Typography>
+          <Typography>{props.dirName}</Typography>
         </CardContent>
       </CardActionArea>
-
     </Card>
   );
 }
