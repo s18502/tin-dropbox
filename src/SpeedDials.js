@@ -1,18 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Switch from '@material-ui/core/Switch';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 
@@ -26,8 +16,6 @@ const useStyles = makeStyles(theme => ({
     display: 'none'
   }
 }));
-
-
 
 export default function SpeedDials({onUpload, onDirCreated}) {
   const classes = useStyles();
@@ -43,7 +31,6 @@ export default function SpeedDials({onUpload, onDirCreated}) {
 
   const [direction] = React.useState('up');
   const [open, setOpen] = React.useState(false);
-  const [hidden] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);

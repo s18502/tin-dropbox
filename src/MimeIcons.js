@@ -10,8 +10,6 @@ export function getIcon(mime, classToApply) {
     return <InsertDriveFileIcon className={classToApply} />
   }
 
-  console.log(mime)
-
   if(mime.startsWith('image')) {
     return <ImageIcon className={classToApply} />
   }

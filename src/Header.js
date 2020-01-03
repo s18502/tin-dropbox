@@ -1,11 +1,8 @@
 import React from "react";
-import "./App.css";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import MenuIcon from "@material-ui/icons/Menu";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Slide } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -21,24 +18,16 @@ function Header() {
   let classes = useStyles();
 
   return (
+    <Slide direction={'down'} in={true}>
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography component="h1" variant="h6" color="inherit" noWrap>
           "Dropbox"
         </Typography>
       </Toolbar>
     </AppBar>
+    </Slide>
   );
-
-  function handleDrawerOpen() {}
 }
 
 export default Header;

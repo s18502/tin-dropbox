@@ -4,9 +4,10 @@ import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import FolderIcon from "@material-ui/icons/Folder";
+import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import Link from '@material-ui/core/Link';
 import { getIcon } from './MimeIcons';
+import { Grow } from '@material-ui/core';
 
 const useStyles = makeStyles({
   card: {
@@ -22,43 +23,47 @@ const useStyles = makeStyles({
   }
 });
 
-export function FileCard({ fileName, mime }) {
+export function FileCard({ fileName, mime, animationMs = 500 }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        {getIcon(mime, classes.iconTile)}
-        {/*<CardMedia*/}
-        {/*  className={classes.fileTile}*/}
-        {/*  image={fileThumbnail}*/}
-        {/*  title={fileName}*/}
-        {/*/>*/}
-        <CardContent>
-          <Typography>{fileName}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-}
-
-export function DirectoryCard(props) {
-  const classes = useStyles();
-
-  function handleClick() {
-    props.onClick(props.dirName);
-  }
-
-  return (
-    <Link onClick={handleClick}>
+    <Grow in={true} timeout={animationMs}>
       <Card className={classes.card}>
         <CardActionArea>
-          <FolderIcon className={classes.iconTile} />
+          {getIcon(mime, classes.iconTile)}
+          {/*<CardMedia*/}
+          {/*  className={classes.fileTile}*/}
+          {/*  image={fileThumbnail}*/}
+          {/*  title={fileName}*/}
+          {/*/>*/}
           <CardContent>
-            <Typography>{props.dirName}</Typography>
+            <Typography>{fileName}</Typography>
           </CardContent>
         </CardActionArea>
       </Card>
-    </Link>
+    </Grow>
+  );
+}
+
+export function DirectoryCard({ dirName, onClick, animationMs = 500}) {
+  const classes = useStyles();
+
+  function handleClick() {
+    onClick(dirName);
+  }
+
+  return (
+      <Link onClick={handleClick}>
+        <Grow in={true} timeout={500}>
+          <Card className={classes.card}>
+            <CardActionArea>
+              <FolderOutlinedIcon className={classes.iconTile} />
+              <CardContent>
+                <Typography>{dirName}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grow>
+      </Link>
   );
 }

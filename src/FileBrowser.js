@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -74,9 +73,7 @@ function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir, on
             </Grid>
           </Grid>
         </Grid>
-
         <SpeedDials onUpload={onFileUpload} onDirCreated={handleDirCreation} />
-
       </Container>
     </main>
   );
