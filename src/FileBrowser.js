@@ -12,6 +12,9 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { ACTIONS, TYPE_FILE } from './Constants';
 import { findByPath } from './SearchTree';
+import SpeedDial from '@material-ui/lab/SpeedDial';
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import SpeedDials from './SpeedDials';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,28 +35,28 @@ const useStyles = makeStyles(theme => ({
   breadcrumbs: {
     paddingBottom: theme.spacing(2)
   },
-  appBarSpacer: theme.mixins.toolbar,
-  fileIcon: {
-    minHeight: 70,
-    minWidth: 70
-  },
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing(10),
-    right: theme.spacing(10)
-  }
+  appBarSpacer: theme.mixins.toolbar
 }));
 
-function FileBrowser({ items, currentPath, onDirClick, changeDir }) {
+function FileBrowser({ items, currentPath, onDirClick, onChangeDir, onNewDir }) {
   let classes = useStyles();
 
   function breadCrumbClicked(idx) {
     let absPath = currentPath.slice(0, idx + 1);
-    changeDir(absPath);
+    onChangeDir(absPath);
+  }
+
+  function handleDirCreation() {
+    const dirName = prompt("Please enter new directory name", "March 2020");
+    if(dirName) {
+      onNewDir(dirName);
+    }
   }
 
   return (
     <main className={classes.content}>
+      <div id="drop_zone" draggable="true" onDragEnter={console.log} onDrop={console.log}>
+
       <div className={classes.appBarSpacer} />
 
       <Container maxWidth="lg" className={classes.container}>
@@ -61,7 +64,7 @@ function FileBrowser({ items, currentPath, onDirClick, changeDir }) {
         <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
           {currentPath.map((p, idx) => (
             <Link key={p} color="inherit" href="#" onClick={() => breadCrumbClicked(idx)} >
-              {p} {idx}
+              {p}
             </Link>
           ))}
         </Breadcrumbs>
@@ -77,10 +80,11 @@ function FileBrowser({ items, currentPath, onDirClick, changeDir }) {
             </Grid>
           </Grid>
         </Grid>
-        <Fab color="primary" aria-label="add" className={classes.fab}>
-          <AddIcon />
-        </Fab>
+
+        <SpeedDials onUpload={() => console.log("upload")} onDirCreated={handleDirCreation} />
+
       </Container>
+      </div>
     </main>
   );
 }
@@ -108,8 +112,12 @@ export default connect(
       const action = { type: ACTIONS.GO_TO_DIR, dirName };
       dispatch(action);
     },
-    changeDir: absolutePath => {
+    onChangeDir: absolutePath => {
       const action = { type: ACTIONS.CHANGE_DIR, absolutePath };
+      dispatch(action);
+    },
+    onNewDir: name => {
+      const action = { type: ACTIONS.NEW_DIR, name };
       dispatch(action);
     }
   })

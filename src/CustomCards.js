@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 100,
+    width: 150,
     textAlign: "center"
   },
   fileTile: {

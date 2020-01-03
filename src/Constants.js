@@ -4,4 +4,5 @@ export const TYPE_DIRECTORY = "directory";
 export const ACTIONS = {
   GO_TO_DIR: "go_to_dir",
   CHANGE_DIR: "change_dir",
+  NEW_DIR: "new_dir",
 }

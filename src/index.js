@@ -5,6 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { TYPE_FILE, TYPE_DIRECTORY, ACTIONS } from './Constants';
+import { findByPath } from './SearchTree';
 
 // Reducer
 function counter(state, action) {
@@ -13,8 +14,15 @@ function counter(state, action) {
       return {...state, currentPath: action.absolutePath}
     case ACTIONS.GO_TO_DIR:
       return { ...state, currentPath: state.currentPath.concat([action.dirName]) };
-    case "DECREMENT":
-      return { value: state.value - 1 };
+    case ACTIONS.NEW_DIR:
+      const newTree = JSON.parse(JSON.stringify(state.fileTree))
+      const currentNode = findByPath(state.currentPath, newTree)
+      currentNode.push({
+        name: action.name,
+        type: TYPE_DIRECTORY,
+        children: []
+      });
+      return { ...state, fileTree: newTree };
     default:
       return state;
   }
