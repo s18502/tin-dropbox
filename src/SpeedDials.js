@@ -9,8 +9,8 @@ import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 const useStyles = makeStyles(theme => ({
   wrapper: {
     position: "absolute",
-    bottom: theme.spacing(10),
-    right: theme.spacing(10),
+    bottom: theme.spacing(1),
+    right: theme.spacing(1),
   },
   hiddenFileInput: {
     display: 'none'
