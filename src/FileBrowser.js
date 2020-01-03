@@ -44,8 +44,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function FileBrowser({ items, currentPath, onDirClick }) {
+function FileBrowser({ items, currentPath, onDirClick, changeDir }) {
   let classes = useStyles();
+
+  function breadCrumbClicked(idx) {
+    let absPath = currentPath.slice(0, idx + 1);
+    changeDir(absPath);
+  }
 
   return (
     <main className={classes.content}>
@@ -54,9 +59,9 @@ function FileBrowser({ items, currentPath, onDirClick }) {
       <Container maxWidth="lg" className={classes.container}>
         <Typography color="textPrimary">Current path</Typography>
         <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-          {currentPath.map(p => (
-            <Link key={p} color="inherit" href="/" >
-              {p}
+          {currentPath.map((p, idx) => (
+            <Link key={p} color="inherit" href="#" onClick={() => breadCrumbClicked(idx)} >
+              {p} {idx}
             </Link>
           ))}
         </Breadcrumbs>
@@ -101,7 +106,10 @@ export default connect(
   dispatch => ({
     onDirClick: dirName => {
       const action = { type: ACTIONS.GO_TO_DIR, dirName };
-      console.log("clicked", action)
+      dispatch(action);
+    },
+    changeDir: absolutePath => {
+      const action = { type: ACTIONS.CHANGE_DIR, absolutePath };
       dispatch(action);
     }
   })

@@ -9,6 +9,8 @@ import { TYPE_FILE, TYPE_DIRECTORY, ACTIONS } from './Constants';
 // Reducer
 function counter(state, action) {
   switch (action.type) {
+    case ACTIONS.CHANGE_DIR:
+      return {...state, currentPath: action.absolutePath}
     case ACTIONS.GO_TO_DIR:
       return { ...state, currentPath: state.currentPath.concat([action.dirName]) };
     case "DECREMENT":
